@@ -1,0 +1,29 @@
+sites:
+  teestamosbuscando:
+    url: https://teestamosbuscando.pe/
+    queries :
+      homepage_links: 'div.views-field.views-field-title > span > a'
+      name: '#page-title'
+      gender: 'div.field.field-name-field-sexo-desparecidos.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div'
+      age: 'div.field.field-name-field-edad.field-type-number-integer.field-label-inline.clearfix > div.field-items > div'
+      location: {
+        state: 'div.field.field-name-field-ubigeo.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div > div > ul > li.shs-parent.first',
+        province: 'div.field.field-name-field-ubigeo.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div > div > ul > li:nth-child(2)',
+        district: 'div.field.field-name-field-ubigeo.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div > div > ul > li.shs-term-selected.last'
+      }
+      characteristics: {
+        race: 'div.field.field-name-field-raza.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div',
+        hair_color: 'div.field.field-name-field-cabellos.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div',
+        mouth_size: 'div.field.field-name-field-boca.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div',
+        eyes_color: 'div.field.field-name-field-ojos.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div',
+        nose: 'div.field.field-name-field-nariz.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div',
+        height: 'div.field.field-name-field-estatura.field-type-text.field-label-inline.clearfix > div.field-items > div'
+      }
+      disappearance_date: 'div.field.field-name-field-hecho-ocurrido-el.field-type-datetime.field-label-inline.clearfix > div.field-items > div > span'
+      complaint_date: 'div.field.field-name-field-fecha.field-type-datetime.field-label-inline.clearfix > div.field-items > div > span'
+      clothing: 'div.field.field-name-field-vestimenta.field-type-text-long.field-label-above > div.field-items > div'
+      circumstances: 'div.field.field-name-field-circunstancias.field-type-text-long.field-label-above > div.field-items > div'
+      informant: {
+        name: 'div.field.field-name-field-denunciante-desaprecidos.field-type-text.field-label-inline.clearfix > div.field-items > div',
+        phone: 'div.field.field-name-field-telefono-denunciante.field-type-text.field-label-inline.clearfix > div.field-items > div'
+      }
