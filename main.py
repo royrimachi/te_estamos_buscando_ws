@@ -1,14 +1,19 @@
 import logging
-
+import missing_people_page_objects as missing_people
 from common import config
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def _scraper():
-  host = config()['sites']['teestamosbuscando']['url']  
+def _scraper(site_uid):
+  host = config()['sites'][site_uid]['url']  
 
   logging.info('Beginning scraper for {}'.format(host))
+  homepage = missing_people.HomePage(site_uid, host)
+
+  for link in homepage.people_links:
+    print(link)
 
 if __name__ == '__main__':
-  _scraper()
+  site_uid = 'teestamosbuscando'
+  _scraper(site_uid)

@@ -2,7 +2,7 @@ sites:
   teestamosbuscando:
     url: https://teestamosbuscando.pe/
     queries :
-      homepage_links: 'div.views-field.views-field-title > span > a'
+      people_links: 'div.views-field.views-field-title > span > a'
       name: '#page-title'
       gender: 'div.field.field-name-field-sexo-desparecidos.field-type-taxonomy-term-reference.field-label-inline.clearfix > div.field-items > div'
       age: 'div.field.field-name-field-edad.field-type-number-integer.field-label-inline.clearfix > div.field-items > div'
