@@ -1,4 +1,6 @@
 import logging
+import datetime
+import csv
 import re
 import missing_people_page_objects as missing_people
 from common import config
@@ -14,7 +16,7 @@ is_root_path = re.compile(r'^/.+$')
 def _scraper(site_uid):
   host = config()['sites'][site_uid]['url']
 
-  people_info =[]
+  people_profiles =[]
   for x in range(0, 2):
     node = 'node?page=' + str(x)
 
@@ -22,29 +24,43 @@ def _scraper(site_uid):
     homepage = missing_people.HomePage(site_uid, host + node)
 
     for link in homepage.people_links:
-      person_info = _fetch_person_info(site_uid, host, link)
+      person_profile = _fetch_person_profile(site_uid, host, link)
 
-      if person_info:
+      if person_profile:
         logger.info('Person profile fetched!!')
-        people_info.append(person_info)
-        print(person_info.name)
+        people_profiles.append(person_profile)
 
-    print(len(people_info))
+    _save_people_profiles(site_uid, people_profiles)
 
-def _fetch_person_info(site_uid, host, link):
+def _save_people_profiles(site_uid, people_profiles):
+  now = datetime.datetime.now().strftime('%Y_%m_%d')
+  out_file_name = '{site_uid}_{datetime}_people_profiles.csv'.format(site_uid=site_uid, datetime=now)
+
+  csv_headers = list(filter(lambda property: not property.startswith('_'), dir(people_profiles[0])))
+
+  with open(out_file_name, mode='w+') as f:
+    writer = csv.writer(f)
+    writer.writerow(csv_headers)
+
+    for person_profile in people_profiles:
+      row = [str(getattr(person_profile, prop)) for prop in csv_headers]
+      writer.writerow(row)
+
+
+def _fetch_person_profile(site_uid, host, link):
   logger.info('Start fetching article at {}'.format(link))
 
-  person_info = None
+  person_profile = None
   try:
-    person_info = missing_people.PersonPage(site_uid, _build_link(host, link))
+    person_profile = missing_people.PersonPage(site_uid, _build_link(host, link))
   except (HTTPError, MaxRetryError) as e:
     logger.warning('Error while fetching the person info', exc_info=False)
 
-  if person_info and not person_info.name:
+  if person_profile and not person_profile.name:
     logger.warning('Invalid person profile. There is no name')
     return None
 
-  return person_info
+  return person_profile
 
 
 def _build_link(host, link):
