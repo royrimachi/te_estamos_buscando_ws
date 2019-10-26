@@ -6,13 +6,16 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def _scraper(site_uid):
-  host = config()['sites'][site_uid]['url']  
+  host = config()['sites'][site_uid]['url']
 
-  logging.info('Beginning scraper for {}'.format(host))
-  homepage = missing_people.HomePage(site_uid, host)
+  for x in range(0, 5):
+    node = 'node?page=' + str(x)
 
-  for link in homepage.people_links:
-    print(link)
+    logging.info('Beginning scraper for {}'.format(host + node))
+    homepage = missing_people.HomePage(site_uid, host + node)
+
+    for link in homepage.people_links:
+      print(link)
 
 if __name__ == '__main__':
   site_uid = 'teestamosbuscando'
