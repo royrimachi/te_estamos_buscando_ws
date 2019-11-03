@@ -9,6 +9,7 @@ class MissingPeoplePage:
     self._config = config()['sites'][site_uid]
     self._queries = self._config['queries']
     self._html = None
+    self._url = url
 
     self._visit(url)
 
@@ -132,3 +133,7 @@ class PersonPage(MissingPeoplePage):
   def informant_phone(self):
     result = self._select(self._queries['informant']['phone'])
     return result[0].text if len(result) else ''
+
+  @property
+  def url(self):
+    return self._url

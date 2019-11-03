@@ -66,6 +66,10 @@ instance/
 # Sphinx documentation
 docs/_build/
 
+# IDE config directories
+.idea/
+.vscode/
+
 # PyBuilder
 target/
 
