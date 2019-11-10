@@ -4,6 +4,10 @@ import bs4
 from common import config
 
 
+def _replace_unrecognized(text):
+  return text.replace(u'\u200b', '')
+
+
 class MissingPeoplePage:
   def __init__(self, site_uid, url):
     self._config = config()['sites'][site_uid]
@@ -47,62 +51,62 @@ class PersonPage(MissingPeoplePage):
   @property
   def name(self):
     result = self._select(self._queries['name'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def gender(self):
     result = self._select(self._queries['gender'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def age(self):
     result = self._select(self._queries['age'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def state(self):
     result = self._select(self._queries['location']['state'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def province(self):
     result = self._select(self._queries['location']['province'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def district(self):
     result = self._select(self._queries['location']['district'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def race(self):
     result = self._select(self._queries['characteristics']['race'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def hair_color(self):
     result = self._select(self._queries['characteristics']['hair_color'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def mouth_size(self):
     result = self._select(self._queries['characteristics']['mouth_size'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def eyes_color(self):
     result = self._select(self._queries['characteristics']['eyes_color'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def nose(self):
     result = self._select(self._queries['characteristics']['nose'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def height(self):
     result = self._select(self._queries['characteristics']['height'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def disappearance_date(self):
@@ -112,27 +116,27 @@ class PersonPage(MissingPeoplePage):
   @property
   def complaint_date(self):
     result = self._select(self._queries['complaint_date'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def clothing(self):
     result = self._select(self._queries['clothing'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def circumstances(self):
     result = self._select(self._queries['circumstances'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
     
   @property
   def informant_name(self):
     result = self._select(self._queries['informant']['name'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def informant_phone(self):
     result = self._select(self._queries['informant']['phone'])
-    return result[0].text if len(result) else ''
+    return _replace_unrecognized(result[0].text) if len(result) else ''
 
   @property
   def url(self):

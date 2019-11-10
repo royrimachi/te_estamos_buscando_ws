@@ -17,8 +17,8 @@ def _scraper(site_uid):
   host = config()['sites'][site_uid]['url']
 
   people_profiles =[]
-  for x in range(0, 2):
-    node = 'node?page=' + str(x)
+  for x in range(0, 298):
+    node = 'desaparecidos?page=' + str(x)
 
     logging.info('Beginning scraper for {}'.format(host + node))
     homepage = missing_people.HomePage(site_uid, host + node)
@@ -30,7 +30,7 @@ def _scraper(site_uid):
         logger.info('Person profile fetched!!')
         people_profiles.append(person_profile)
 
-    _save_people_profiles(site_uid, people_profiles)
+  _save_people_profiles(site_uid, people_profiles)
 
 def _save_people_profiles(site_uid, people_profiles):
   now = datetime.datetime.now().strftime('%Y_%m_%d')

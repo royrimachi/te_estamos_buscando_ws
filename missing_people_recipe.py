@@ -21,8 +21,8 @@ def main(filename):
   df = _fill_missing_names(df)
   df = _generate_uids_for_rows(df)
   # df = _remove_new_lines(df)
-  df = _tokenize_column(df, 'circumstances')
   df = _remove_duplicate_entries(df, 'name')
+  df = _tokenize_column(df, 'circumstances')
   df = _drop_rows_with_missing_values(df)
   _save_data(df, filename)
 
@@ -32,7 +32,7 @@ def main(filename):
 def _read_data(filename):
   logger.info('Reading file {}'.format(filename))
 
-  return pd.read_csv(filename, encoding='latin-1')
+  return pd.read_csv(filename)
 
 
 def _extract_site_uid(filename):
