@@ -32,7 +32,7 @@ def main(filename):
 def _read_data(filename):
   logger.info('Reading file {}'.format(filename))
 
-  return pd.read_csv(filename)
+  return pd.read_csv(filename, encoding='latin-1')
 
 
 def _extract_site_uid(filename):
