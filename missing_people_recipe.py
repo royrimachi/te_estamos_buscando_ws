@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 import pandas as pd
 import nltk
 from nltk.corpus import stopwords
+import re
 
 
 logging.basicConfig(level=logging.INFO)
@@ -16,14 +17,16 @@ def main(filename):
 
   df = _read_data(filename)
   site_uid = _extract_site_uid(filename)
-  df = _add_site_uid_column(df, site_uid)
+  if re.search(r'found', filename) != None:
+    df = _add_site_uid_column(df, site_uid + '_encontrados')
+  else:
+    df = _add_site_uid_column(df, site_uid + '_desaparecidos')
   df = _extract_host(df)
-  df = _fill_missing_names(df)
   df = _generate_uids_for_rows(df)
-  # df = _remove_new_lines(df)
   df = _remove_duplicate_entries(df, 'name')
   df = _tokenize_column(df, 'circumstances')
-  df = _drop_rows_with_missing_values(df)
+  df = _remove_not_numerical_values(df, 'height')
+  df = _normalize_column(df, 'height')
   _save_data(df, filename)
 
   return df
@@ -84,21 +87,6 @@ def _generate_uids_for_rows(df):
   return df.set_index('uid')
 
 
-# def _remove_new_lines(df):
-#   logger.info('Removing new lines')
-
-#   striped = (df
-#               .apply(lambda row: row['body'], axis=1)
-#               .apply(lambda body: list(body))
-#               .apply(lambda letters: list(map(lambda letter: letter.replace('\n', ' '), letters)))
-#               .apply(lambda letters: ''.join(letters))
-#             )
-
-#   df['body'] = stripped
-
-#   return df
-
-
 def _tokenize_column(df, column_name):
   logger.info('Calculating the number of unique tokens in {}'.format(column_name))
   stop_words = set(stopwords.words('spanish'))
@@ -124,9 +112,31 @@ def _remove_duplicate_entries(df, column_name):
   return df
 
 
-def _drop_rows_with_missing_values(df):
-  logger.info('Dropping rows with missing values')
-  return df.dropna()
+def _remove_not_numerical_values(df, column_name):
+  logger.info('Removing not numerical values of ' + column_name)
+  df = df[df[column_name].str.contains('[1-9]').fillna(False)]
+
+  df[column_name] = (df
+                      .apply(lambda row: row['height'], axis=1)
+                      .apply(lambda height: list(height))
+                      .apply(lambda letters: list(map(lambda letter: re.sub(r'\D', '', letter), letters)))
+                      .apply(lambda letters: ''.join(letters))
+  )
+
+  df[column_name] = pd.to_numeric(df[column_name])
+
+  return df
+
+
+def _normalize_column(df, column_name):
+  logger.info('Normalizing ' + column_name + 'to centimeters')
+  df[column_name] = (df
+                        .apply(lambda row: row[column_name], axis=1)
+                        .apply(lambda column: column/10 if column > 200 else column)
+                        .apply(lambda column: column*100 if column < 2 else column*10 if column < 25 else column)
+  )
+
+  return df
 
 
 def _save_data(df, filename):
