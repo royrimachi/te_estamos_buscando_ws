@@ -1,6 +1,6 @@
 sites:
   teestamosbuscando:
-    url: https://teestamosbuscando.pe/
+    url: https://teestamosbuscando.pe
     queries:
       people_links: 'div.views-field.views-field-title > span > a'
       name: '#page-title'

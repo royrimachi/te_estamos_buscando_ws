@@ -19,7 +19,7 @@ def _scraper(site_uid):
 	
 	people_profiles = []
 	for x in range(0, 298):
-		node = 'desaparecidos?page=' + str(x)
+		node = '/desaparecidos?page=' + str(x)
 		
 		logging.info('Beginning scraper for {}'.format(host + node))
 		homepage = missing_people.HomePage(site_uid, host + node)
