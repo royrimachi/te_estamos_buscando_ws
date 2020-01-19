@@ -117,7 +117,7 @@ def _remove_not_numerical_values(df, column_name):
   df = df[df[column_name].str.contains('[1-9]').fillna(False)]
 
   df[column_name] = (df
-                      .apply(lambda row: row['height'], axis=1)
+                      .apply(lambda row: row[column_name], axis=1)
                       .apply(lambda height: list(height))
                       .apply(lambda letters: list(map(lambda letter: re.sub(r'\D', '', letter), letters)))
                       .apply(lambda letters: ''.join(letters))
